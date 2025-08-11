@@ -6,7 +6,6 @@ use ProjectSend\Classes\ActionsLog;
 /** Process an action */
 $allowed_levels = array(9, 8, 7, 0);
 require_once 'bootstrap.php';
-log_in_required($allowed_levels);
 
 global $auth;
 global $logger;
@@ -38,6 +37,7 @@ switch ($_GET['do']) {
         force_logout();
         break;
     case 'change_language':
+        log_in_required($allowed_levels);
         $auth->setLanguage(html_output($_GET['language']));
         $location = 'index.php';
         if (!empty($_GET['return_to']) && strpos($_GET['return_to'], BASE_URI) === 0) {
@@ -46,6 +46,7 @@ switch ($_GET['do']) {
         ps_redirect(BASE_URI . $location);
         break;
     case 'get_preview':
+        log_in_required($allowed_levels);
         $return = [];
         if (!empty($_GET['file_id'])) {
             if (!user_can_download_file(CURRENT_USER_ID, $_GET['file_id'])) {
@@ -61,21 +62,25 @@ switch ($_GET['do']) {
         exit;
         break;
     case 'download':
+        log_in_required($allowed_levels);
         $download = new Download;
         $download->download($_GET['id']);
         break;
     case 'dismiss_upgraded_notice':
+        log_in_required($allowed_levels);
         redirect_if_not_logged_in();
         redirect_if_role_not_allowed([9,8,7]);
         save_option('show_upgrade_success_message', 'false');
         ps_redirect(BASE_URI.'dashboard.php');
     case 'return_files_ids':
+        log_in_required($allowed_levels);
         redirect_if_not_logged_in();
         redirect_if_role_not_allowed($allowed_levels);
         $download = new Download;
         $download->returnFilesIds($_GET['files']);
         break;
     case 'download_zip':
+        log_in_required($allowed_levels);
         redirect_if_not_logged_in();
         redirect_if_role_not_allowed($allowed_levels);
         $download = new Download;
