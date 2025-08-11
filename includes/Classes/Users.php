@@ -773,6 +773,7 @@ class Users
 
         $autogroup = new \ProjectSend\Classes\GroupsMemberships;
         $autogroup->clientAddToGroups([
+            'added_by' => /system_user_id/,                          
             'client_id' => $this->id,
             'group_ids' => $group_id,
         ]);
