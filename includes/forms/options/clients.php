@@ -9,6 +9,15 @@
     </div>
 </div>
 
+
+<div class="form-group row">
+    <div class="col-sm-8 offset-sm-4">
+        <label for="clients_can_external_register">
+            <input type="checkbox" value="1" name="clients_can_external_register" id="clients_can_external_register" class="checkbox_options" <?php echo (get_option('clients_can_external_register') == 1) ? 'checked="checked"' : ''; ?> /> <?php _e('Clients can register themselves through OAuth Providers','cftp_admin'); ?>
+        </label>
+    </div>
+</div>
+
 <div class="form-group row">
     <div class="col-sm-8 offset-sm-4">
         <label for="clients_auto_approve">
