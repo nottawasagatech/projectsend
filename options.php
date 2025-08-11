@@ -29,6 +29,7 @@ switch ($section) {
         $section_title = __('Clients', 'cftp_admin');
         $checkboxes = array(
             'clients_can_register',
+            'clients_can_external_register',
             'clients_auto_approve',
             'clients_can_upload',
             'clients_can_delete_own_files',
