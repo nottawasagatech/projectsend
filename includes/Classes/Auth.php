@@ -248,7 +248,7 @@ class Auth
             // User does not exist, create if self-registrations are allowed
             //pax($userProfile);
 
-            if (get_option('clients_can_register') == '0') {
+            if (get_option('clients_can_external_register') == '0') {
                 $this->setError($this->error_strings['no_self_registration']);
                 ps_redirect(BASE_URI);
             }
@@ -278,7 +278,7 @@ class Auth
                 'recaptcha' => null,
             ]);
 
-            $new_client->create();
+            $new_response = $new_client->create();
             if (!empty($new_response['id'])) {
                 $new_client->triggerAfterSelfRegister();
 
@@ -287,7 +287,7 @@ class Auth
                 $meta_value = json_encode($userProfile);
                 $statement = $this->dbh->prepare("INSERT INTO " . TABLE_USER_META . " (user_id, name, value)"
                                 ."VALUES (:id, :name, :value)");
-                $statement->bindParam(':id', $this->user->id, PDO::PARAM_INT);
+                $statement->bindParam(':id', $new_client->id, PDO::PARAM_INT);
                 $statement->bindParam(':name', $meta_name);
                 $statement->bindParam(':value', $meta_value);
                 $statement->execute();
